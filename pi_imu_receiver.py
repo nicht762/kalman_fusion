@@ -16,11 +16,12 @@ while True:
     packet = socket.recv_json(0)
     pack_rpy = packet['rpy']
     rpy = np.array(json.loads(pack_rpy))
+    print('RPY ', rpy)
     pack_acc = packet['acc']
     acc = np.array(json.loads(pack_acc))
 
     acc_rot = Rot.from_euler('xyz', rpy, degrees=True)
-    accel_glob = acc_rot.apply(acc)
-    print(accel_glob)
+    accel_glob = acc_rot.apply(np.array([acc[1], acc[0], acc[2]]))
+    # print(accel_glob)
 
 
