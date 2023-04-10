@@ -12,10 +12,15 @@ socket = context.socket(zmq.SUB)
 socket.connect(url)
 socket.setsockopt(zmq.SUBSCRIBE, b'')
 
+
+def rf(val):
+    return round(float(val), 2)
+
+
 while True:
     packet = socket.recv_json(0)
     pack_rpy = packet['rpy']
-    rpy = np.array(json.loads(pack_rpy))
+    rpy = np.array(json.loads(pack_rpy, parse_float=rf))
     print('RPY ', rpy)
     pack_acc = packet['acc']
     acc = np.array(json.loads(pack_acc))
